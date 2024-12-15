@@ -20,7 +20,7 @@ const form = document.querySelector('#addForm')
 
 // BUILD THE EMPLOYEES TABLE WHEN THE PAGE LOADS
 window.addEventListener('load', () => {
-    buildGrid()
+    buildTable()
     document.querySelector('#id').focus()
 })
 
@@ -37,13 +37,13 @@ form.addEventListener('submit', (e) => {
     const empDept = document.querySelector('#department').value
 
     // ADD THE NEW EMPLOYEE TO A NEW ARRAY OBJECT
-    const newEmployee = { id: parseInt(empId), name: empName, extension: parseInt(empExt), email: empEmail, department: empDept }
+    const newEmp = { id: parseInt(empId), name: empName, extension: parseInt(empExt), email: empEmail, department: empDept }
 
     // PUSH THE NEW ARRAY TO THE *EXISTING* EMPLOYEES ARRAY
-    employees.push(newEmployee)
+    employees.push(newEmp)
 
     // BUILD THE GRID
-    buildGrid()
+    buildTable()
 
     // RESET THE FORM
     form.reset()
@@ -58,20 +58,20 @@ empTable.addEventListener('click', (e) => {
          // CONFIRM THE DELETE
         if (confirm('Click "OK" to confirm you want to delete this employee?')) {
             // GET THE SELECTED ROWINDEX FOR THE TR (PARENTNODE.PARENTNODE)
-            const rowList = e.target.parentNode.parentNode.rowList - 1
+            const rowListItem = e.target.parentNode.parentNode.rowListItem - 1
 
             // REMOVE EMPLOYEE FROM ARRAY
-            employees.splice(rowList, 1)
+            employees.splice(rowListItem, 1)
 
             // BUILD THE GRID
 
-            buildGrid()
+            buildTable()
         }
     }
 })
 
 // BUILD THE EMPLOYEES GRID
-function buildGrid() {
+function buildTable() {
     // REMOVE THE EXISTING SET OF ROWS BY REMOVING THE ENTIRE TBODY SECTION
     empTable.innerHTML = ''
     
@@ -79,7 +79,7 @@ function buildGrid() {
    
     // LOOP THROUGH THE ARRAY OF EMPLOYEES
     // REBUILDING THE ROW STRUCTURE
-    for (const employee of employees) {
+    for (let employee of employees) {
     // BIND THE TBODY TO THE EMPLOYEE TABLE
         let row = document.createElement('tr')
         row.innerHTML = `
